@@ -1,3 +1,5 @@
+![[IES-Emili-Darder-MVS/SAD/Criptografia/AC/attachments/ac.jpg]]
+
 En aquesta documentació es pretén crear una Autoritat de Certificació (en anglés Certification Authority o CA), configurar el certificat arrel als dispositius clients i crear un certificat per a un servidor web.
 
 El procés està orientat a saber com es crea de la forma més senzilla i com implementar-lo en tot el procés, ja sigui la creació de les claus, com configurar un windows, un firefox, així com entendre que hem de fer per donar un certificat web a un servidor nostre.
