@@ -1,0 +1,54 @@
+services:
+  # Servicio de Apache 1
+  apache1:
+    image: httpd:latest  # Imagen oficial de Apache
+    container_name: apache1
+    ports:
+      - "8080:80"  # Exponemos el puerto 8080 en el host
+    networks:
+      - webnet
+    volumes:
+      - /home/marti/docker/nginx/html1:/usr/local/apache2/htdocs/  # Montamos la carpeta html en el contenedor (opcional)
+
+  # Servicio de Apache 2
+  apache2:
+    image: httpd:latest
+    container_name: apache2
+    ports:
+      - "8081:80"  # Exponemos el puerto 8081 en el host
+    networks:
+      - webnet
+    volumes:
+      - /home/marti/docker/nginx/html2:/usr/local/apache2/htdocs/  # Montamos la carpeta html en el contenedor (opcional)
+
+  # Servicio de Apache 3
+  apache3:
+    image: httpd:latest
+    container_name: apache3
+    ports:
+      - "8082:80"  # Exponemos el puerto 8082 en el host
+    networks:
+      - webnet
+    volumes:
+      - /home/marti/docker/nginx/html3:/usr/local/apache2/htdocs/  # Montamos la carpeta html en el contenedor (opcional)
+
+ # Servicio de NGINX como balanceador de carga
+  nginx:
+    image: nginx:latest
+    container_name: nginx-lb
+    ports:
+      - "443:443"  # Puerto HTTPS
+      - "80:80"    # Puerto HTTP (para redirigir a HTTPS)
+    networks:
+      - webnet
+    volumes:
+      - /home/marti/docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro  # Montamos el archivo de configuración de NGINX
+      - /home/marti/docker/nginx/certs:/etc/nginx/certs:ro
+    depends_on:
+      - apache1
+      - apache2
+      - apache3
+
+networks:
+  webnet:
+    driver: bridge

@@ -1,9 +1,18 @@
-![[IES-Emili-Darder-MVS/SAD/Criptografia/AC/attachments/ac.jpg]]
+![ImatgeCapçalera](attachments/ac.png)
+# Creació d'una AC en Ubuntu Server
+---
+En aquesta documentació es pretén crear una Autoritat de Certificació (en anglés Certification Authority o CA), configurar el certificat arrel als dispositius clients i extreure les claus públiques i privades del certificat arrel.
 
-En aquesta documentació es pretén crear una Autoritat de Certificació (en anglés Certification Authority o CA), configurar el certificat arrel als dispositius clients i crear un certificat per a un servidor web.
+El procés està orientat a saber com es crea de la forma més senzilla i com implementar-lo en tot el procés en vistes de poder generar certificats digitals tant a persones com a servidors web.
 
-El procés està orientat a saber com es crea de la forma més senzilla i com implementar-lo en tot el procés, ja sigui la creació de les claus, com configurar un windows, un firefox, així com entendre que hem de fer per donar un certificat web a un servidor nostre.
+---
+**APRENDRÀS:**
 
+- **Què és una AC**: Entendre que és una Autoritat de Certificació capaç d'expedir certificats digitals.
+- **OpenSSL**: La comanda que permet crear les claus asimètriques, certificats, etc...
+- **Crear certificats arrel**: El certificat que ha de tenir la AC per poder expedir i signar els certificats digitals a qui els demani
+- **Extreure les claus públiques i privades**: Obtenir les claus pública i privada del certificat arrel.
+---
 # Creació de l' AC
 
 Primerament hem de triar quin sistema operatiu emprarem per muntar l'AC. En aquest cas hem fet servir un servidor Ubuntu 22.04 LTS. Es pot emprar qualsevol altre, tant windows com mac, però per aquesta activitat, hem triat Linux i Ubuntu per la facilitat d’implementació que té i cost nul.
