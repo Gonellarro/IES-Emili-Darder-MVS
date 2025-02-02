@@ -1,4 +1,4 @@
-![[attachments/ac.jpg]]
+![ImatgeCapçalera](attachments/ac.jpg)
 
 En aquesta documentació es pretén crear una Autoritat de Certificació (en anglés Certification Authority o CA), configurar el certificat arrel als dispositius clients i crear un certificat per a un servidor web.
 
