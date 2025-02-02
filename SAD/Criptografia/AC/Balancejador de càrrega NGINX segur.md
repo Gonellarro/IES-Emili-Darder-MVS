@@ -1,7 +1,20 @@
+![[attachments/loadbalancer.png]]
+# Balancejador de càrrega NGINX segur
+---
+En aquesta documentació el que trobarem serà crear un balancejador de càrrega NGINX amb 3 servidors apache. Els servidors Apache, serviran les pàgines amb http, però el que volem és que el balancejador les serveixi amb https fent servir el  certificat creat a la nostra AC. 
 
-Per aquesta pràctica el que farem serà crear un balancejador de càrrega NGINX amb 3 servidors apache. Els servidors Apache, serviran les pàgines amb http, però el que volem és que el balancejador les serveixi amb https fent servir el  certificat creat a la nostra AC. 
 
-# Estructura del directori
+---
+**APRENDRÀS:**
+
+- **Docker compose**: Fer feina amb varis contenidors dins una mateixa xarxa de docker i tot engegat amb docker compose
+- **Instal·lar NGINX load balancer**: Veuràs com configurar el balancejador de càrrega amb el docker compose.
+- **Instal·lar Apache**: Veuràs com instal·lar i configurar els apaches necessaris
+- **Configuració dels certificats digitals**: Configuraràs al lloc correcte els certificats digitals i claus privades
+- **Creació de l'estructura del directori**: Planificar correctament l'estructura de directoris que ha de tenir la configuració
+
+---
+## Estructura del directori
 
 El que farem primer serà crear una estructura de directori que contengui tots el directoris i fitxers necessaris per aixecar correctament els serveis amb docker compose.
 
@@ -30,7 +43,7 @@ Com veiem tindrem una carpeta docker, que dins té la carpeta nginx que conté:
 - les carpetes htmlX, que contenen l'html de cada Apache
 - el fitxer de configuració nginx.conf
 
-# Creació del docker compose
+## Creació del docker compose
 
 Emprarem el següent docker-compose.yml per crear els 3 Apaches i el balancejador de càrrega tot a l'hora. El que és recomanable és separar els 4 serveis en servidors diferents, per si un servidor cau, no se vegi afectat tot el sistema. Però en aquest cas empram aquesta configuració per temes d'economitzar màquines i CPU.
 
@@ -91,7 +104,7 @@ networks:
     driver: bridge
 ```
 
-# Configuració dels certificats 
+## Configuració dels certificats 
 
 Un cop montat el docker-compose, copiam els fitxers a la cartpeta certs:
 - apaches.local.crt
@@ -148,7 +161,7 @@ Com veim, li indicam els nostres servidors i a quin port escolten. Hem de tenir 
 
 ## Creació dels index.html
 
-Finalment, ja per acabar, posarem en cada carpeta html un fitxer index.htl que ens indiqui que estam en un servidor diferent:
+Finalment, ja per acabar, posarem en cada carpeta html un fitxer index.html que ens indiqui que estam en un servidor diferent:
 
 ```html
 <!doctype html>

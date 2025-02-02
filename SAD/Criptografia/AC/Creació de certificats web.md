@@ -1,12 +1,31 @@
-Ara ja som una AC i podem signar certificats per a qualsevol nou web que necessiti HTTPS. 
+![[attachments/ssl.png]]
+# Creació de certificats web
+---
+En aquesta documentació suposarem que ja hem creat una AC i podem signar certificats per a qualsevol nou web que necessiti HTTPS. 
 
-Primer, cream ls parella de claus pública/privada per al lloc de web i n’extreim la clau privada. Tingueu en compte que anomenem la clau privada mitjançant l'URL del nom de domini del lloc web (ubntsrv02.local). Això no és estrictament necessari, però facilita la gestió si tenim més llocs web:
+Aquí veurem:
+- com es creen les claus i el certificat del lloc web
+- com fer una sol·licitud al servidor de la AC per a què ens signi el certificat
+- assignar els rols que volem al certificat
+
+---
+**APRENDRÀS:**
+
+- **A**: AAAA
+- **B**: BBBB
+- **C**: CCCC
+---
+## Creació del certificat i les claus
+
+Primer, cream ls parella de claus pública/privada per al lloc de web i n’extreim la clau privada. Tingueu en compte que anomenem la clau privada mitjançant l'URL del nom de domini del lloc web (assumim que el loc es diu **ubntsrv02.local**). Això no és estrictament necessari, però facilita la gestió si tenim més llocs web:
 
 ```bash
 openssl genrsa -out ubntsrv02.local.key 2048
 ```
 
-Ara hem de demanar a l'AC' que ens signi el certificat del lloc amb la clau privada de l'AC. Per això es fa una sol·licitud anomenada CSR:
+## Creació de la sol·licitud de signat
+
+Ara hem de demanar a l'AC que ens signi el certificat del lloc amb la clau privada de l'AC. Per això es fa una sol·licitud anomenada CSR:
 
 ```bash
 openssl req -new -key ubntsrv02.local.key -out ubntsrv02.local.csr
@@ -41,6 +60,8 @@ marti@ubntsrv1:~/certs$
 La “challenge password” és bàsicament un secret compartit entre noltros  i l'emissor del certificat SSL (l’autoritat de certificació o AC), incrustat a la CSR, que l'emissor (AC) pot utilitzar per autenticar-mos si alguna vegada ho necessiteu. **No** serveix per encriptar més o menys. Si no posam la challenge password, la clau nova estarà igualment encriptada.
 
 >**Nota:** Important triar bé el *Common Name*, ja que serà una part cabdal a l’hora de publicar el certificat
+
+## Assignació els rols al certificat
 
 Finalment, crearem un fitxer de configuració d'extensió de certificat X509 V3, que s'utilitza per definir el nom alternatiu del subjecte (SAN) per al certificat. En el nostre cas, crearem un fitxer de configuració anomenat ubntsrv02.local.ext que conté el text següent i el guardarem allà on estem:
 
@@ -90,6 +111,9 @@ total 32
 -rw------- 1 marti marti 1675 may  5 13:39 ubntsrv02.local.key
 ```
 
-Els fitxers importants resultants són: ubntsrv02.local.key (la clau privada), ubntsrv02.local.csr (la sol·licitud de signatura del certificat o fitxer csr) i ubntsrv02.local.crt (el certificat signat). 
+Els fitxers resultants són: 
+- ubntsrv02.local.key (la clau privada)
+- ubntsrv02.local.csr (la sol·licitud de signatura del certificat o fitxer csr)
+- ubntsrv02.local.crt (el certificat signat). 
 
 Ara ja podem configurar servidors web locals per utilitzar HTTPS amb la clau privada i el certificat signat.
