@@ -1,7 +1,7 @@
 ![ImatgeCapçalera](attachments/nginx.png)
-# Balancejador de càrrega NGINX segur
+# Balancejador de càrrega NGINX insegur
 ---
-En aquesta documentació el que trobarem serà crear un balancejador de càrrega NGINX amb 3 servidors apache amb https. Els servidors Apache, serviran les pàgines amb http, però el que volem és que el balancejador les serveixi amb https fent servir el  certificat creat a la nostra AC. 
+En aquesta documentació el que trobarem serà crear un balancejador de càrrega NGINX amb 3 servidors apache. Els servidors Apache, serviran les pàgines amb http, cosa que també farà el nostre balancejador de càrrega
 
 
 ---
@@ -10,7 +10,6 @@ En aquesta documentació el que trobarem serà crear un balancejador de càrrega
 - **Docker compose**: Fer feina amb varis contenidors dins una mateixa xarxa de docker i tot engegat amb docker compose
 - **Instal·lar NGINX load balancer**: Veuràs com configurar el balancejador de càrrega amb el docker compose.
 - **Instal·lar Apache**: Veuràs com instal·lar i configurar els apaches necessaris
-- **Configuració dels certificats digitals**: Configuraràs al lloc correcte els certificats digitals i claus privades
 - **Creació de l'estructura del directori**: Planificar correctament l'estructura de directoris que ha de tenir la configuració
 
 ---
@@ -23,9 +22,6 @@ marti@ubntsr2404apache:~$ tree
 .
 └── docker
     └── nginx
-        ├── certs
-        │   ├── apaches.local.crt
-        │   └── apaches.local.key
         ├── docker-compose.yml
         ├── html1
         │   └── index.html
@@ -35,11 +31,10 @@ marti@ubntsr2404apache:~$ tree
         │   └── index.html
         └── nginx.conf
 
-7 directories, 7 files
+5 directories, 5 files
 ```
 
 Com veiem tindrem una carpeta docker, que dins té la carpeta nginx que conté:
-- la carpeta certs amb els certificats
 - les carpetes htmlX, que contenen l'html de cada Apache
 - el fitxer de configuració nginx.conf
 
@@ -93,7 +88,6 @@ services:
       - webnet
     volumes:
       - /home/marti/docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro  # Montamos el archivo de configuración de NGINX
-      - /home/marti/docker/nginx/certs:/etc/nginx/certs:ro
     depends_on:
       - apache1
       - apache2
@@ -104,13 +98,9 @@ networks:
     driver: bridge
 ```
 
-## Configuració dels certificats 
+## Configuració dels servidors 
 
-Un cop montat el docker-compose, copiam els fitxers a la cartpeta certs:
-- apaches.local.crt
-- apaches.local.key
-
-Aquest fitxers els hem creat abans amb la nostra AC.  Configuram el servdior nginx, mitjançant el fitxer nginx.conf:
+Configuram el servdior nginx, mitjançant el fitxer nginx.conf:
 
 ```bash
 worker_processes auto;
@@ -127,19 +117,8 @@ http {
     }
 
     server {
-        listen 443 ssl;
+        listen 80;
         server_name apaches.local;
-
-        ssl_certificate /etc/nginx/certs/apaches.local.crt;  # Ruta al certificado
-        ssl_certificate_key /etc/nginx/certs/apaches.local.key;  # Ruta a la clave privada
-
-        ssl_protocols TLSv1.2 TLSv1.3;
-        ssl_ciphers 'TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:ECDHE-RSA-AES128-GCM-SHA256';
-        ssl_prefer_server_ciphers on;
-        ssl_session_cache shared:SSL:10m;
-        ssl_session_timeout 1d;
-        ssl_session_tickets off;
-
         location / {
             proxy_pass http://apache_servers;  # Usamos el bloque upstream para balanceo de carga
             proxy_set_header Host $host;
@@ -147,12 +126,6 @@ http {
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
         }
-    }
-    # Redirección HTTP a HTTPS
-    server {
-        listen 80;
-        server_name apaches.local;
-        return 301 https://$host$request_uri;
     }
 }
 ```
