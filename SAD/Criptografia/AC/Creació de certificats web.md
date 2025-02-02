@@ -1,6 +1,6 @@
 ![ImatgeCapçalera](attachments/ssl.png)
 # Creació de certificats web
----
+
 En aquesta documentació suposarem que ja hem creat una AC i podem signar certificats per a qualsevol nou web que necessiti HTTPS. 
 
 Aquí veurem:

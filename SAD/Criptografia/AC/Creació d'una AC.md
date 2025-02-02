@@ -1,6 +1,6 @@
 ![ImatgeCapçalera](attachments/ac.png)
 # Creació d'una AC en Ubuntu Server
----
+
 En aquesta documentació es pretén crear una Autoritat de Certificació (en anglés Certification Authority o CA), configurar el certificat arrel als dispositius clients i extreure les claus públiques i privades del certificat arrel.
 
 El procés està orientat a saber com es crea de la forma més senzilla i com implementar-lo en tot el procés en vistes de poder generar certificats digitals tant a persones com a servidors web.

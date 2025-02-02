@@ -1,6 +1,6 @@
 ![ImatgeCapçalera](attachments/windowsFirefox.png)
 # Instal·lació del certificat arrel
----
+
 Per a què la CA sigui reconeguda pel nostre ordinador, s’ha d’instal·lar el certificat arrel al magatzem de certificats del SO o a les aplicacions que vulguem que els emprin. 
 
 En aquesta pràctica suposarem que els dispositius més comuns d’escriptori són Windows i instal·larem el certificat al magatzem de certificats de Windows i alternativament, també ho farem per al navegador Firefox, que no cull els certificats del sistema operatiu, sino que té el seu propi magatzem de certificats.

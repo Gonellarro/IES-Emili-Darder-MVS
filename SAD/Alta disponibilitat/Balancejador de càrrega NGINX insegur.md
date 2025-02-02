@@ -1,6 +1,6 @@
 ![ImatgeCapçalera](attachments/nginx.png)
 # Balancejador de càrrega NGINX insegur
----
+
 En aquesta documentació el que trobarem serà crear un balancejador de càrrega NGINX amb 3 servidors apache. Els servidors Apache, serviran les pàgines amb http, cosa que també farà el nostre balancejador de càrrega
 
 

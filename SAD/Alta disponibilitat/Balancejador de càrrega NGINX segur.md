@@ -1,6 +1,6 @@
 ![ImatgeCapçalera](attachments/nginx.png)
 # Balancejador de càrrega NGINX segur
----
+
 En aquesta documentació el que trobarem serà crear un balancejador de càrrega NGINX amb 3 servidors apache amb https. Els servidors Apache, serviran les pàgines amb http, però el que volem és que el balancejador les serveixi amb https fent servir el  certificat creat a la nostra AC. 
 
 
